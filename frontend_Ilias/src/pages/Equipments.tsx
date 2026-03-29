@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import api from '../api/axios';
 
 type Equipment = {
@@ -20,10 +21,13 @@ const statusColor: Record<string, string> = {
 
 export default function Equipments() {
     const [equipments, setEquipments] = useState<Equipment[]>([]);
+    const [searchParams] = useSearchParams();
+    const categoryId = searchParams.get('category');
 
     useEffect(() => {
-        api.get('/equipments').then(({ data }) => setEquipments(data));
-    }, []);
+        const url = categoryId ? `/equipments?category_id=${categoryId}` : '/equipments';
+        api.get(url).then(({ data }) => setEquipments(data));
+    }, [categoryId]);
 
     return (
         <div className="p-8">
@@ -42,7 +46,7 @@ export default function Equipments() {
                     </thead>
                     <tbody>
                         {equipments.map((e, i) => (
-                            <tr key={e.id} className={i % 2 === 0 ? 'bg-gray-800' : 'bg-gray-750'}>
+                            <tr key={e.id} className={i % 2 === 0 ? 'bg-gray-800' : 'bg-gray-900'}>
                                 <td className="px-6 py-4">{e.serial_number}</td>
                                 <td className="px-6 py-4 font-medium text-white">{e.name}</td>
                                 <td className="px-6 py-4">{e.category?.name}</td>

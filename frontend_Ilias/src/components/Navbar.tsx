@@ -25,6 +25,9 @@ export default function Navbar() {
                 >
                     Categories
                 </span>
+                <span onClick={() => navigate('/dashboard')} className="text-gray-300 hover:text-white cursor-pointer transition-colors">
+                    Dashboard
+                </span>
             </div>
             <button
                 onClick={handleLogout}
