@@ -11,9 +11,15 @@ class EquipmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Equipment::with('category')->get();
+        $query = Equipment::with('category');
+        
+        if ($request->has('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        
+        return $query->get();
     }
 
     /**
